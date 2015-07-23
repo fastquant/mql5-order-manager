@@ -10,15 +10,15 @@
 
 #include "../UnitTests/Mock Classes/MarketMock.mqh"
 #include "../Source/Market.mqh"
-#include "../GUI/OrderBookGUI.mqh"
+#include "../GUI/OrderManagerGUI.mqh"
 
 #define REAL_MARKET false
 
 int g_counter;
 CMarketMock *g_mockMarket;
 CMarket *g_realMarket;
-COrderBook *g_orderBook;
-COrderBookGUI *g_orderBookGUI;
+COrderManager *g_OrderManager;
+COrderManagerGUI *g_OrderManagerGUI;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -29,7 +29,7 @@ int OnInit(){
    
    if(REAL_MARKET){
       g_realMarket = new CMarket();
-      g_orderBook = new COrderBook(g_realMarket);
+      g_OrderManager = new COrderManager(g_realMarket);
    }
    else{
       g_mockMarket = new CMarketMock();
@@ -46,14 +46,14 @@ int OnInit(){
       g_mockMarket.AddSymbol("AUDCHF");
       g_mockMarket.AddSymbol("AUDJPY");
       
-      g_orderBook = new COrderBook(g_mockMarket);
+      g_OrderManager = new COrderManager(g_mockMarket);
    }
    
-   g_orderBookGUI = new COrderBookGUI(g_orderBook);
+   g_OrderManagerGUI = new COrderManagerGUI(g_OrderManager);
    
-   if(!g_orderBookGUI.Create("Example OrderBook"))
+   if(!g_OrderManagerGUI.Create("Example OrderManager"))
       return (INIT_FAILED);
-   if(!g_orderBookGUI.Run())
+   if(!g_OrderManagerGUI.Run())
       return (INIT_FAILED);
   
    EventSetTimer(1);
@@ -65,15 +65,15 @@ int OnInit(){
 //+------------------------------------------------------------------+
 
 void OnDeinit(const int reason){
-   g_orderBook.CloseOrders();
+   g_OrderManager.CloseOrders();
    Sleep(1000);
 
    //--- destroying the dialog
-   g_orderBookGUI.Destroy(reason);
+   g_OrderManagerGUI.Destroy(reason);
 
    delete g_mockMarket;
-   delete g_orderBook;
-   delete g_orderBookGUI;
+   delete g_OrderManager;
+   delete g_OrderManagerGUI;
 }
 
 //+------------------------------------------------------------------+
@@ -81,18 +81,18 @@ void OnDeinit(const int reason){
 //+------------------------------------------------------------------+
 
 void OnTimer(){
-   orderBookGUITest(g_counter, "EURUSD");
-   orderBookGUITest(g_counter, "GBPUSD");
-   orderBookGUITest(g_counter, "USDCHF");
-   orderBookGUITest(g_counter, "USDJPY");
-   orderBookGUITest(g_counter, "USDCAD");
-   orderBookGUITest(g_counter, "AUDUSD");
-   orderBookGUITest(g_counter, "AUDNZD");
-   orderBookGUITest(g_counter, "AUDCAD");
-   orderBookGUITest(g_counter, "AUDCHF");
-   orderBookGUITest(g_counter, "AUDJPY");
+   OrderManagerGUITest(g_counter, "EURUSD");
+   OrderManagerGUITest(g_counter, "GBPUSD");
+   OrderManagerGUITest(g_counter, "USDCHF");
+   OrderManagerGUITest(g_counter, "USDJPY");
+   OrderManagerGUITest(g_counter, "USDCAD");
+   OrderManagerGUITest(g_counter, "AUDUSD");
+   OrderManagerGUITest(g_counter, "AUDNZD");
+   OrderManagerGUITest(g_counter, "AUDCAD");
+   OrderManagerGUITest(g_counter, "AUDCHF");
+   OrderManagerGUITest(g_counter, "AUDJPY");
    
-   g_orderBookGUI.Update();
+   g_OrderManagerGUI.Update();
    g_counter++;
 }
 
@@ -105,14 +105,14 @@ void OnChartEvent(const int id,
                   const double &dparam,
                   const string &sparam){
    //--- Handling the event
-   g_orderBookGUI.ChartEvent(id,lparam,dparam,sparam);
+   g_OrderManagerGUI.ChartEvent(id,lparam,dparam,sparam);
 }
 
 //+------------------------------------------------------------------+
-//| Function to test the orderBook GUI
+//| Function to test the OrderManager GUI
 //+------------------------------------------------------------------+
 
-void orderBookGUITest(int counter, string symbol){
+void OrderManagerGUITest(int counter, string symbol){
    double volume, takeProfit, stopLoss, ask, bid;
    ENUM_ORDER_TYPE orderType;
   
@@ -138,7 +138,7 @@ void orderBookGUITest(int counter, string symbol){
          stopLoss = ask-0.01;
          orderType = ORDER_TYPE_BUY;
          
-         g_orderBook.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
+         g_OrderManager.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
          break;
       case(1):
          symbol = symbol;
@@ -147,7 +147,7 @@ void orderBookGUITest(int counter, string symbol){
          stopLoss = bid+0.002;
          orderType = ORDER_TYPE_SELL;
          
-         g_orderBook.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
+         g_OrderManager.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
          break;
       case(2):
          symbol = symbol;
@@ -156,10 +156,10 @@ void orderBookGUITest(int counter, string symbol){
          stopLoss = bid+0.002;
          orderType = ORDER_TYPE_SELL;
          
-         g_orderBook.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
+         g_OrderManager.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
          break;
       default:
-         g_orderBook.CloseOrders();
+         g_OrderManager.CloseOrders();
          break;
    }
 }

@@ -10,7 +10,7 @@
 
 #include <Controls\ListView.mqh>
 #include <Arrays\List.mqh>
-#include "../Source/OrderBook.mqh"
+#include "../Source/OrderManager.mqh"
 
 //+------------------------------------------------------------------+
 //| Prototype
@@ -18,11 +18,11 @@
 
 class COrderList : public CListView{
    private:
-      COrderBook *m_orderBook;
+      COrderManager *m_OrderManager;
       int m_total;
       
    public:
-      COrderList(COrderBook *orderBook);
+      COrderList(COrderManager *OrderManager);
       ~COrderList();
       
       void Update();
@@ -32,8 +32,8 @@ class COrderList : public CListView{
 //| Constructor
 //+------------------------------------------------------------------+
 
-COrderList::COrderList(COrderBook *orderBook){
-   m_orderBook = orderBook;
+COrderList::COrderList(COrderManager *OrderManager){
+   m_OrderManager = OrderManager;
 }
 
 //+------------------------------------------------------------------+
@@ -52,9 +52,9 @@ void COrderList::Update(){
    int i;
    int orderNbr;
    
-   // Synchronise the orderBook
-   m_orderBook.Synchronise();
-   orderNbr = m_orderBook.GetNbrOfTickets();
+   // Synchronise the OrderManager
+   m_OrderManager.Synchronise();
+   orderNbr = m_OrderManager.GetNbrOfTickets();
    
    // If there is less orders than before
    if(orderNbr<m_total){
@@ -64,7 +64,7 @@ void COrderList::Update(){
    
    for(i = 0; i < orderNbr; i++){
       // Get infos
-      orderInfos = m_orderBook.GetOrderInfos(i);
+      orderInfos = m_OrderManager.GetOrderInfos(i);
       
       // Add to chart
       if(i<m_total)
