@@ -26,6 +26,7 @@ class COrderInfos : public CSymbolInfo{
       double m_volume;
       double m_stopLoss;
       double m_takeProfit;
+      string m_comment;
 
    public:
       COrderInfos();
@@ -44,6 +45,7 @@ class COrderInfos : public CSymbolInfo{
       double GetVolume();
       double GetStopLoss();
       double GetTakeProfit();
+      string GetComment();
 };
   
 //+------------------------------------------------------------------+
@@ -224,5 +226,14 @@ double COrderInfos::GetStopLoss(){
 double COrderInfos::GetTakeProfit(){
    return m_takeProfit;
 }
-  
+
+//+------------------------------------------------------------------+
+//| Get the order comment
+//| @return The order comment
+//+------------------------------------------------------------------+
+
+string COrderInfos::GetComment(){
+   return m_comment;
+}
+
 //+------------------------------------------------------------------+

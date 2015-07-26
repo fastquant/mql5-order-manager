@@ -27,6 +27,7 @@ class COrder : public COrderInfos{
       bool SetVolume(double volume);
       bool SetTakeProfit(double takeProfit);
       bool SetStopLoss(double stopLoss);
+      void SetComment(string comment);
 };
 
 //+------------------------------------------------------------------+
@@ -146,6 +147,15 @@ bool COrder::SetStopLoss(double stopLoss){
       m_stopLoss = stopLoss;
       return true;
    }
+}
+
+//+------------------------------------------------------------------+
+//| Set the order comment
+//| @param comment Text of the comment
+//+------------------------------------------------------------------+
+
+void COrder::SetComment(string comment){
+   m_comment = comment;
 }
 
 //+------------------------------------------------------------------+
