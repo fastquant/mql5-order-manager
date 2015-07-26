@@ -8,7 +8,7 @@
 //+------------------------------------------------------------------+
 //| Include necessary files
 //+------------------------------------------------------------------+
-#include "src/market/Market.mqh"
+#include "src/marketInterfaces/MarketInterface.mqh"
 #include "src/OrderManager.mqh"
 #include "src/gui/OrderManagerGUI.mqh"
 //+------------------------------------------------------------------+

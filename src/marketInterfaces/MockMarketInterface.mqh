@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                                   MarketMock.mqh |
+//|                                                   MockMarketInterface.mqh |
 //|                                     Copyright 2015, Louis Fradin |
 //|                                     https://en.louis-fradin.net/ |
 //+------------------------------------------------------------------+
@@ -9,13 +9,13 @@
 #property version   "1.00"
 
 #include <Trade\AccountInfo.mqh>
-#include "AbstractMarket.mqh"
+#include "AbstractMarketInterface.mqh"
 
 //+------------------------------------------------------------------+
 //| Prototype
 //+------------------------------------------------------------------+
 
-class CMarketMock : public CAbstractMarket{
+class CMockMarketInterface : public CAbstractMarketInterface{
    private:
       string m_symbols[];
       double m_volumes[];
@@ -23,8 +23,8 @@ class CMarketMock : public CAbstractMarket{
       double m_bid[];
 
    public:
-      CMarketMock();
-      ~CMarketMock();
+      CMockMarketInterface();
+      ~CMockMarketInterface();
       
       // Setting functions
       void AddSymbol(string symbol);
@@ -47,7 +47,7 @@ class CMarketMock : public CAbstractMarket{
 //| Constructor
 //+------------------------------------------------------------------+
 
-CMarketMock::CMarketMock(){
+CMockMarketInterface::CMockMarketInterface(){
    ArrayResize(m_symbols, 0);
    ArrayResize(m_volumes, 0);
    ArrayResize(m_ask, 0);
@@ -58,7 +58,7 @@ CMarketMock::CMarketMock(){
 //| Destructor
 //+------------------------------------------------------------------+
 
-CMarketMock::~CMarketMock(){
+CMockMarketInterface::~CMockMarketInterface(){
 }
 
 //+------------------------------------------------------------------+
@@ -66,7 +66,7 @@ CMarketMock::~CMarketMock(){
 //| @param symbol Symbol to add
 //+------------------------------------------------------------------+
 
-void CMarketMock::AddSymbol(string symbol){
+void CMockMarketInterface::AddSymbol(string symbol){
    int size = ArraySize(m_symbols);
    ArrayResize(m_symbols, size+1);
    ArrayResize(m_volumes, size+1);
@@ -84,7 +84,7 @@ void CMarketMock::AddSymbol(string symbol){
 //| @param ask Value of the ask
 //+------------------------------------------------------------------+
 
-void CMarketMock::SetAsk(string symbol, double ask){
+void CMockMarketInterface::SetAsk(string symbol, double ask){
    if(!IsSymbol(symbol))
       AddSymbol(symbol);
    
@@ -105,7 +105,7 @@ void CMarketMock::SetAsk(string symbol, double ask){
 //+------------------------------------------------------------------+
 
 
-void CMarketMock::SetBid(string symbol, double bid){
+void CMockMarketInterface::SetBid(string symbol, double bid){
    if(!IsSymbol(symbol))
       AddSymbol(symbol);
    
@@ -124,7 +124,7 @@ void CMarketMock::SetBid(string symbol, double bid){
 //| @param symbol Symbol of the position
 //+------------------------------------------------------------------+
 
-void CMarketMock::SetPositionVolume(string symbol, double volume){
+void CMockMarketInterface::SetPositionVolume(string symbol, double volume){
    if(!IsSymbol(symbol))
       AddSymbol(symbol);
    
@@ -144,7 +144,7 @@ void CMarketMock::SetPositionVolume(string symbol, double volume){
 //| @return true if the symbol is present, false otherwise
 //+------------------------------------------------------------------+
 
-bool CMarketMock::IsSymbol(string symbol){
+bool CMockMarketInterface::IsSymbol(string symbol){
    int size = ArraySize(m_symbols);
    
    for(int i = 0; i < size; i++){
@@ -167,7 +167,7 @@ bool CMarketMock::IsSymbol(string symbol){
 //| @return bool if order is ok, false otherwise
 //+------------------------------------------------------------------+
 
-bool CMarketMock::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment=""){
+bool CMockMarketInterface::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment=""){
    double spread = MathAbs(GetBid(symbol)-GetAsk(symbol));
    
    // Verification of the symbol
@@ -246,7 +246,7 @@ bool CMarketMock::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_t
 //| @return the volume (negative=sell, positive=buy) if the symbol exist, false otherwise
 //+------------------------------------------------------------------+
 
-double CMarketMock::GetPositionVolume(string symbol){
+double CMockMarketInterface::GetPositionVolume(string symbol){
    int size = ArraySize(m_symbols);
    string value;
    
@@ -268,7 +268,7 @@ double CMarketMock::GetPositionVolume(string symbol){
 //| @return Actual fake ask
 //+------------------------------------------------------------------+
 
-double CMarketMock::GetAsk(string symbol){
+double CMockMarketInterface::GetAsk(string symbol){
    int size = ArraySize(m_symbols);
    
    for(int i = 0; i < size; i++){
@@ -285,7 +285,7 @@ double CMarketMock::GetAsk(string symbol){
 //| @return Actual fake bid
 //+------------------------------------------------------------------+
 
-double CMarketMock::GetBid(string symbol){
+double CMockMarketInterface::GetBid(string symbol){
    int size = ArraySize(m_symbols);
    
    for(int i = 0; i < size; i++){
@@ -302,7 +302,7 @@ double CMarketMock::GetBid(string symbol){
 //| @param price Price
 //| @return Max Lot
 //+------------------------------------------------------------------+
-double CMarketMock::MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
+double CMockMarketInterface::MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
    return 50; 
 }
 //+------------------------------------------------------------------+

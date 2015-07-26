@@ -8,14 +8,14 @@
 #property link      "https://en.louis-fradin.net/"
 #property version   "1.00"
 
-#include "../src/market/MarketMock.mqh"
+#include "../src/marketInterfaces/MockMarketInterface.mqh"
 #include "../order-manager.mqh"
 
 #define REAL_MARKET false
 
 int g_counter;
-CMarketMock *g_mockMarket;
-CMarket *g_realMarket;
+CMockMarketInterface *g_mockMarket;
+CMarketInterface *g_realMarket;
 COrderManager *g_OrderManager;
 COrderManagerGUI *g_OrderManagerGUI;
 
@@ -27,11 +27,11 @@ int OnInit(){
    g_counter = 0;
    
    if(REAL_MARKET){
-      g_realMarket = new CMarket();
+      g_realMarket = new CMarketInterface();
       g_OrderManager = new COrderManager(g_realMarket);
    }
    else{
-      g_mockMarket = new CMarketMock();
+      g_mockMarket = new CMockMarketInterface();
    
       // Configurate the mock market
       g_mockMarket.AddSymbol("EURUSD");

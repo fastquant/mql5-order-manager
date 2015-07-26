@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                                       Market.mqh |
+//|                                              MarketInterface.mqh |
 //|                                     Copyright 2015, Louis Fradin |
 //|                                     https://en.louis-fradin.net/ |
 //+------------------------------------------------------------------+
@@ -9,21 +9,21 @@
 #property version   "1.00"
 #include <Trade/AccountInfo.mqh>
 #include <Trade/Trade.mqh>
-#include "AbstractMarket.mqh"
+#include "AbstractMarketInterface.mqh"
 #include "../orders/Order.mqh"
 
 //+------------------------------------------------------------------+
 //| Prototype
 //+------------------------------------------------------------------+
 
-class CMarket : public CAbstractMarket{
+class CMarketInterface : public CAbstractMarketInterface{
    private:
       CAccountInfo m_accountInfo;
       CTrade m_trade;
       
    public:
-      CMarket();
-      ~CMarket();
+      CMarketInterface();
+      ~CMarketInterface();
       
       virtual bool PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment="");
       virtual double GetAsk(string symbol);
@@ -35,7 +35,7 @@ class CMarket : public CAbstractMarket{
 //| Constructor
 //+------------------------------------------------------------------+
 
-CMarket::CMarket(){
+CMarketInterface::CMarketInterface(){
 }
   
   
@@ -43,7 +43,7 @@ CMarket::CMarket(){
 //| Destructor
 //+------------------------------------------------------------------+
 
-CMarket::~CMarket(){
+CMarketInterface::~CMarketInterface(){
 }
 
 //+------------------------------------------------------------------+
@@ -58,7 +58,7 @@ CMarket::~CMarket(){
 //| @return bool if order is ok, false otherwise
 //+------------------------------------------------------------------+
 
-bool CMarket::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment=""){
+bool CMarketInterface::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment=""){
    return m_trade.PositionOpen(symbol,order_type,volume,price,sl,tp,comment);
 }
 
@@ -68,7 +68,7 @@ bool CMarket::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,
 //| @return Actual bid
 //+------------------------------------------------------------------+
 
-double CMarket::GetBid(string symbol){
+double CMarketInterface::GetBid(string symbol){
    return SymbolInfoDouble(symbol,SYMBOL_BID);
 }
 
@@ -78,7 +78,7 @@ double CMarket::GetBid(string symbol){
 //| @return Actual ask
 //+------------------------------------------------------------------+
 
-double CMarket::GetAsk(string symbol){
+double CMarketInterface::GetAsk(string symbol){
    return SymbolInfoDouble(symbol,SYMBOL_ASK);
 }
 
@@ -89,7 +89,7 @@ double CMarket::GetAsk(string symbol){
 //| @param price Price
 //| @return Max Lot
 //+------------------------------------------------------------------+
-double CMarket::MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
+double CMarketInterface::MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
    return m_accountInfo.MaxLotCheck(symbol, orderType, price); 
 }
 
