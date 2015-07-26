@@ -8,24 +8,24 @@
 #property link      "http://en.louis-fradin.net/"
 #property version   "1.00"
 // Includes
-#include "../modules/unittest_library/UnitTestCollection.mqh"
+#include "../modules/unit-test-library/UnitTest-Library.mqh"
 #include "../src/OrderManager.mqh"
 #include "../src/marketInterfaces/MockMarketInterface.mqh"
 //+------------------------------------------------------------------+
 //| Summary of tests
 //+------------------------------------------------------------------+
 void OnStart(){
-   CUnitTestCollection utCollection();
-   utCollection.AddUnitTest(CreateOrder_Test());
-   utCollection.AddUnitTest(CloseOrder_Test());
-   utCollection.AddUnitTest(Synchronise_Test());
-   utCollection.AddUnitTest(CloseAllOrders_Test());
+   CUnitTestsCollection utCollection();
+   utCollection.AddUnitTests(CreateOrder_Test());
+   utCollection.AddUnitTests(CloseOrder_Test());
+   utCollection.AddUnitTests(Synchronise_Test());
+   utCollection.AddUnitTests(CloseAllOrders_Test());
 }
 //+------------------------------------------------------------------+
 //| Test CreateOrder                                                 |
 //+------------------------------------------------------------------+
-CUnitTest* CreateOrder_Test(){
-   CUnitTest* ut = new CUnitTest("CreateOrder_Test");
+CUnitTests* CreateOrder_Test(){
+   CUnitTests* ut = new CUnitTests("CreateOrder_Test");
    CMockMarketInterface *mockMarket = new CMockMarketInterface();
    COrderManager OrderManager(mockMarket);
    // Setting up the mock market
@@ -64,8 +64,8 @@ CUnitTest* CreateOrder_Test(){
 //+------------------------------------------------------------------+
 //| Close Order Test                                                 |
 //+------------------------------------------------------------------+
-CUnitTest* CloseOrder_Test(){
-   CUnitTest* ut = new CUnitTest("CloseOrder_Test");
+CUnitTests* CloseOrder_Test(){
+   CUnitTests* ut = new CUnitTests("CloseOrder_Test");
    CMockMarketInterface *mockMarket = new CMockMarketInterface();
    COrderManager OrderManager(mockMarket);
    // Setting up the mock market
@@ -93,8 +93,8 @@ CUnitTest* CloseOrder_Test(){
 //| Synchronise method Test
 //+------------------------------------------------------------------+
 
-CUnitTest* Synchronise_Test(){
-   CUnitTest* ut = new CUnitTest("Synchronise_Test");
+CUnitTests* Synchronise_Test(){
+   CUnitTests* ut = new CUnitTests("Synchronise_Test");
    CMockMarketInterface *mockMarket = new CMockMarketInterface();
    COrderManager OrderManager(mockMarket);
    // Setting up the mock market
@@ -179,8 +179,8 @@ CUnitTest* Synchronise_Test(){
 //+------------------------------------------------------------------+
 //| CloseAllOrders_Test
 //+------------------------------------------------------------------+
-CUnitTest* CloseAllOrders_Test(){
-   CUnitTest* ut = new CUnitTest("CloseAllOrders_Test");
+CUnitTests* CloseAllOrders_Test(){
+   CUnitTests* ut = new CUnitTests("CloseAllOrders_Test");
    CMockMarketInterface *mockMarket = new CMockMarketInterface();
    COrderManager OrderManager(mockMarket);
    // Setting up the mock market

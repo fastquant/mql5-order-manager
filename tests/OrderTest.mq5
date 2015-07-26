@@ -8,24 +8,24 @@
 #property link      "http://en.louis-fradin.net/"
 #property version   "1.00"
 // Includes
-#include "../modules/unittest_library/UnitTestCollection.mqh"
+#include "../modules/unit-test-library/UnitTest-Library.mqh"
 #include "../src/orders/Order.mqh"
 //+------------------------------------------------------------------+
 //| Summary of tests
 //+------------------------------------------------------------------+
 void OnStart(){
-   CUnitTestCollection utCollection();
-   utCollection.AddUnitTest(SetSymbol_Test());
-   utCollection.AddUnitTest(SetVolume_Test());
-   utCollection.AddUnitTest(SetTakeProfit_Test());
-   utCollection.AddUnitTest(SetStopLoss_Test());
-   utCollection.AddUnitTest(SetPrice_Test());
+   CUnitTestsCollection utCollection();
+   utCollection.AddUnitTests(SetSymbol_Test());
+   utCollection.AddUnitTests(SetVolume_Test());
+   utCollection.AddUnitTests(SetTakeProfit_Test());
+   utCollection.AddUnitTests(SetStopLoss_Test());
+   utCollection.AddUnitTests(SetPrice_Test());
 }
 //+------------------------------------------------------------------+
 //| Test SetSymbol
 //+------------------------------------------------------------------+
-CUnitTest* SetSymbol_Test(){
-   CUnitTest* ut = new CUnitTest("SetSymbol_Test");
+CUnitTests* SetSymbol_Test(){
+   CUnitTests* ut = new CUnitTests("SetSymbol_Test");
    COrder order();
    // Set
    ut.IsFalse(__FILE__, __LINE__, order.SetSymbol("ABCDEF"));
@@ -37,8 +37,8 @@ CUnitTest* SetSymbol_Test(){
 //+------------------------------------------------------------------+
 //| Test SetVolume
 //+------------------------------------------------------------------+
-CUnitTest* SetVolume_Test(){
-   CUnitTest* ut = new CUnitTest("SetVolume_Test");
+CUnitTests* SetVolume_Test(){
+   CUnitTests* ut = new CUnitTests("SetVolume_Test");
    COrder order();
    // Set
    ut.IsFalse(__FILE__, __LINE__, order.SetVolume(-2)); // Volume < 0
@@ -50,8 +50,8 @@ CUnitTest* SetVolume_Test(){
 //+------------------------------------------------------------------+
 //| Test SetTakeProfit
 //+------------------------------------------------------------------+
-CUnitTest* SetTakeProfit_Test(){
-   CUnitTest* ut = new CUnitTest("SetTakeProfit_Test");
+CUnitTests* SetTakeProfit_Test(){
+   CUnitTests* ut = new CUnitTests("SetTakeProfit_Test");
    COrder order();
    // Set
    ut.IsFalse(__FILE__, __LINE__, order.SetTakeProfit(-2)); // Takeprofit < 0
@@ -63,8 +63,8 @@ CUnitTest* SetTakeProfit_Test(){
 //+------------------------------------------------------------------+
 //| Test setStopLoss
 //+------------------------------------------------------------------+
-CUnitTest* SetStopLoss_Test(){
-   CUnitTest* ut = new CUnitTest("SetStopLoss_Test");
+CUnitTests* SetStopLoss_Test(){
+   CUnitTests* ut = new CUnitTests("SetStopLoss_Test");
    COrder order();
    // Set
    ut.IsFalse(__FILE__, __LINE__, order.SetStopLoss(-2)); // StopLoss < 0
@@ -76,8 +76,8 @@ CUnitTest* SetStopLoss_Test(){
 //+------------------------------------------------------------------+
 //| Test SetPrice
 //+------------------------------------------------------------------+
-CUnitTest* SetPrice_Test(){
-   CUnitTest* ut = new CUnitTest("SetPrice_Test");
+CUnitTests* SetPrice_Test(){
+   CUnitTests* ut = new CUnitTests("SetPrice_Test");
    COrder order();
    // Set
    ut.IsFalse(__FILE__, __LINE__, order.SetPrice(-2)); // Price < 0

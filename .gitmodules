@@ -1,0 +1,3 @@
+[submodule "modules/unit-test-library"]
+	path = modules/unit-test-library
+	url = git@github.com:Lerenn/mql5-unit-test-library.git
