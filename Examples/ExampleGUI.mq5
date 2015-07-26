@@ -3,36 +3,32 @@
 //|                                     Copyright 2015, Louis Fradin |
 //|                                     https://en.louis-fradin.net/ |
 //+------------------------------------------------------------------+
-
+// Properties
 #property copyright "Copyright 2015, Louis Fradin"
 #property link      "https://en.louis-fradin.net/"
 #property version   "1.00"
-
+// Includes
 #include "../src/marketInterfaces/MockMarketInterface.mqh"
 #include "../order-manager.mqh"
-
+// Defines
 #define REAL_MARKET false
-
+// Global variables
 int g_counter;
 CMockMarketInterface *g_mockMarket;
 CMarketInterface *g_realMarket;
 COrderManager *g_OrderManager;
 COrderManagerGUI *g_OrderManagerGUI;
-
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
-
 int OnInit(){
    g_counter = 0;
-   
    if(REAL_MARKET){
       g_realMarket = new CMarketInterface();
       g_OrderManager = new COrderManager(g_realMarket);
    }
    else{
       g_mockMarket = new CMockMarketInterface();
-   
       // Configurate the mock market
       g_mockMarket.AddSymbol("EURUSD");
       g_mockMarket.AddSymbol("GBPUSD");
@@ -44,41 +40,31 @@ int OnInit(){
       g_mockMarket.AddSymbol("AUDCAD");
       g_mockMarket.AddSymbol("AUDCHF");
       g_mockMarket.AddSymbol("AUDJPY");
-      
       g_OrderManager = new COrderManager(g_mockMarket);
    }
-   
    g_OrderManagerGUI = new COrderManagerGUI(g_OrderManager);
-   
    if(!g_OrderManagerGUI.Create("Example OrderManager"))
       return (INIT_FAILED);
    if(!g_OrderManagerGUI.Run())
       return (INIT_FAILED);
-  
    EventSetTimer(1);
    return(INIT_SUCCEEDED);
 }
-  
 //+------------------------------------------------------------------+
 //| Expert deinitialization function                                 |
 //+------------------------------------------------------------------+
-
 void OnDeinit(const int reason){
    g_OrderManager.CloseOrders();
    Sleep(1000);
-
    //--- destroying the dialog
    g_OrderManagerGUI.Destroy(reason);
-
    delete g_mockMarket;
    delete g_OrderManager;
    delete g_OrderManagerGUI;
 }
-
 //+------------------------------------------------------------------+
 //| Expert event function
 //+------------------------------------------------------------------+
-
 void OnTimer(){
    OrderManagerGUITest(g_counter, "EURUSD");
    OrderManagerGUITest(g_counter, "GBPUSD");
@@ -90,15 +76,12 @@ void OnTimer(){
    OrderManagerGUITest(g_counter, "AUDCAD");
    OrderManagerGUITest(g_counter, "AUDCHF");
    OrderManagerGUITest(g_counter, "AUDJPY");
-   
    g_OrderManagerGUI.Update();
    g_counter++;
 }
-
 //+------------------------------------------------------------------+
 //| Chart event handler                                              |
 //+------------------------------------------------------------------+
-
 void OnChartEvent(const int id,
                   const long &lparam,
                   const double &dparam,
@@ -106,15 +89,12 @@ void OnChartEvent(const int id,
    //--- Handling the event
    g_OrderManagerGUI.ChartEvent(id,lparam,dparam,sparam);
 }
-
 //+------------------------------------------------------------------+
 //| Function to test the OrderManager GUI
 //+------------------------------------------------------------------+
-
 void OrderManagerGUITest(int counter, string symbol){
    double volume, takeProfit, stopLoss, ask, bid;
    ENUM_ORDER_TYPE orderType;
-  
    if(REAL_MARKET){
       ask = g_realMarket.GetAsk(symbol);
       bid = g_realMarket.GetBid(symbol);
@@ -126,9 +106,7 @@ void OrderManagerGUITest(int counter, string symbol){
       g_mockMarket.SetAsk(symbol, ask);
       g_mockMarket.SetBid(symbol, bid);
    }
-  
    counter = counter%4;
-   
    switch(counter){
       case(0):
          symbol = symbol;
@@ -136,7 +114,6 @@ void OrderManagerGUITest(int counter, string symbol){
          takeProfit = ask+0.02;
          stopLoss = ask-0.01;
          orderType = ORDER_TYPE_BUY;
-         
          g_OrderManager.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
          break;
       case(1):
@@ -145,7 +122,6 @@ void OrderManagerGUITest(int counter, string symbol){
          takeProfit = bid-0.001;
          stopLoss = bid+0.002;
          orderType = ORDER_TYPE_SELL;
-         
          g_OrderManager.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
          break;
       case(2):
@@ -154,7 +130,6 @@ void OrderManagerGUITest(int counter, string symbol){
          takeProfit = bid-0.001;
          stopLoss = bid+0.002;
          orderType = ORDER_TYPE_SELL;
-         
          g_OrderManager.CreateOrder(symbol, orderType, volume, stopLoss, takeProfit, 0);
          break;
       default:
@@ -162,5 +137,4 @@ void OrderManagerGUITest(int counter, string symbol){
          break;
    }
 }
-
 //+------------------------------------------------------------------+

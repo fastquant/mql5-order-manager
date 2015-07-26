@@ -3,22 +3,19 @@
 //|                                     Copyright 2014, Louis Fradin |
 //|                                      http://en.louis-fradin.net/ |
 //+------------------------------------------------------------------+
-
+// Properties
 #property copyright "Copyright 2014, Louis Fradin"
 #property link      "http://en.louis-fradin.net/"
-
+// Includes
 #include <Trade\AccountInfo.mqh>
 #include "OrderInfos.mqh"
-
 //+------------------------------------------------------------------+
-//| Prototype
+//| Class Prototype
 //+------------------------------------------------------------------+
-
 class COrder : public COrderInfos{
    public:
       COrder();
       ~COrder();
-      
       // Mutators
       bool SetSymbol(string symbol);
       void SetOrderType(ENUM_ORDER_TYPE orderType);
@@ -29,60 +26,47 @@ class COrder : public COrderInfos{
       bool SetStopLoss(double stopLoss);
       void SetComment(string comment);
 };
-
 //+------------------------------------------------------------------+
-//| Constructor
+//| Class Constructor
 //+------------------------------------------------------------------+
-
 COrder::COrder(){
 }
-
 //+------------------------------------------------------------------+
 //| Destructors
 //+------------------------------------------------------------------+
-
 COrder::~COrder(){
 }
-
 //+------------------------------------------------------------------+
 //| Set the order symbol
 //| @param symbol String of the symbol
 //| @return true if the symbol exist on the market, false otherwise
 //+------------------------------------------------------------------+
-
 bool COrder::SetSymbol(string symbol){
    // Setting the object name
    this.Name(symbol);
-   
    // Testing the selection
    return(this.Select());
 }
-
 //+------------------------------------------------------------------+
 //| Set the order type
 //| @param orderType The new order type
 //+------------------------------------------------------------------+
-
 void COrder::SetOrderType(ENUM_ORDER_TYPE orderType){
    // Setting the orderType
    m_orderType = orderType;
 }
-
 //+------------------------------------------------------------------+
 //| Set the order status
 //| @param orderStatus The order status
 //+------------------------------------------------------------------+
-
 void COrder::SetStatus(ENUM_ORDER_STATE orderStatus){
    m_orderStatus = orderStatus;
 }
-
 //+------------------------------------------------------------------+
 //| Set the order price
 //| @param orderType The new order price
 //| @return true if the price is correct, false otherwise
 //+------------------------------------------------------------------+
-
 bool COrder::SetPrice(double price){
    // Verifying if the price is correct   
    if(price<0){
@@ -94,7 +78,6 @@ bool COrder::SetPrice(double price){
       return true;
    }
 }
-
 //+------------------------------------------------------------------+
 //| Set the order volume
 //| @param orderType The new order volume
@@ -112,13 +95,11 @@ bool COrder::SetVolume(double volume){
       return true;
    }
 }
-
 //+------------------------------------------------------------------+
 //| Set the order take profit
 //| @param takeProfit The new order take profit
 //| @return true if the take profit is correct, false otherwise
 //+------------------------------------------------------------------+
-
 bool COrder::SetTakeProfit(double takeProfit){
    // Verifying if the take profit is correct
    if(takeProfit<0){
@@ -130,13 +111,11 @@ bool COrder::SetTakeProfit(double takeProfit){
       return true;
    }
 }
-
 //+------------------------------------------------------------------+
 //| Set the order stop loss
 //| @param stopLoss The new order stopLoss
 //| @return true if the stopLoss is correct, false otherwise
 //+------------------------------------------------------------------+
-
 bool COrder::SetStopLoss(double stopLoss){
    // Verifying if the stop loss is correct
    if(stopLoss<0){
@@ -148,14 +127,11 @@ bool COrder::SetStopLoss(double stopLoss){
       return true;
    }
 }
-
 //+------------------------------------------------------------------+
 //| Set the order comment
 //| @param comment Text of the comment
 //+------------------------------------------------------------------+
-
 void COrder::SetComment(string comment){
    m_comment = comment;
 }
-
 //+------------------------------------------------------------------+
