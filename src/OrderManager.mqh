@@ -10,8 +10,8 @@
 #include <Arrays\List.mqh>
 #include <Expert\ExpertMoney.mqh>
 #include <Trade\AccountInfo.mqh>
-#include "Order.mqh"
-#include "Interfaces/MarketInterface.mqh"
+#include "orders/Order.mqh"
+#include "Market/AbstractMarket.mqh"
 
 //+------------------------------------------------------------------+
 //| Prototype of the class                                           
@@ -20,12 +20,12 @@
 class COrderManager : public CExpertMoney{
    private:
       CList *m_orderList;
-      IMarket *m_market;
+      CAbstractMarket *m_market;
       
       bool Close(COrder *order);
       bool Execute(COrder *order);
    public:
-      COrderManager(IMarket *market);
+      COrderManager(CAbstractMarket *market);
      ~COrderManager();
      
      // Log functions
@@ -134,7 +134,7 @@ bool COrderManager::Close(COrder *order){
 //| Constructor                                                      
 //+------------------------------------------------------------------+
 
-COrderManager::COrderManager(IMarket *market){
+COrderManager::COrderManager(CAbstractMarket *market){
    MathSrand(GetTickCount());
    m_orderList = new CList();
    m_market = market;

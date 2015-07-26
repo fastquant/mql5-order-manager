@@ -8,9 +8,9 @@
 #property link      "http://en.louis-fradin.net/"
 #property version   "1.00"
 
-#include "UnitTest_Library/UnitTestCollection.mqh"
-#include "../Source/OrderManager.mqh"
-#include "Mock Classes/MarketMock.mqh"
+#include "../modules/unittest_library/UnitTestCollection.mqh"
+#include "../src/OrderManager.mqh"
+#include "../src/market/MarketMock.mqh"
 
 //+------------------------------------------------------------------+
 //| Summary of tests

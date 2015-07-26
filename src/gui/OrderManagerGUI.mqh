@@ -7,7 +7,7 @@
 #property copyright "Copyright 2015, Louis Fradin"
 #property link      "http://en.louis-fradin.net/"
 
-#include "../Source/OrderManager.mqh"
+#include "../OrderManager.mqh"
 #include <Controls\Dialog.mqh>
 #include <Controls\Label.mqh>
 #include "OrderList.mqh"

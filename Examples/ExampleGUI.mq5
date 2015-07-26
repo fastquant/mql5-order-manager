@@ -8,9 +8,8 @@
 #property link      "https://en.louis-fradin.net/"
 #property version   "1.00"
 
-#include "../UnitTests/Mock Classes/MarketMock.mqh"
-#include "../Source/Market.mqh"
-#include "../GUI/OrderManagerGUI.mqh"
+#include "../src/market/MarketMock.mqh"
+#include "../order-manager.mqh"
 
 #define REAL_MARKET false
 
