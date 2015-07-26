@@ -37,6 +37,10 @@ class CAbstractMarket{
             Print("CAbstractMarket::GetBid: Virtual method");
             return -1.0;
          };
+      virtual double MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
+            Print("CAbstractMarket::MaxLotCheck: Virtual method");
+            return -1.0;
+         };
 };
   
 //+------------------------------------------------------------------+

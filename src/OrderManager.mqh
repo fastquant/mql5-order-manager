@@ -9,7 +9,6 @@
 
 #include <Arrays\List.mqh>
 #include <Expert\ExpertMoney.mqh>
-#include <Trade\AccountInfo.mqh>
 #include "orders/Order.mqh"
 #include "Market/AbstractMarket.mqh"
 
@@ -51,8 +50,6 @@ class COrderManager : public CExpertMoney{
 //+------------------------------------------------------------------+
 
 bool COrderManager::Execute(COrder *order){
-   CAccountInfo accountInfos;
-   
    if(order.GetType()==ORDER_TYPE_BUY||order.GetType()==ORDER_TYPE_SELL){ // If it is a simple order (buy or sell)
       // Setting the price
       if(order.GetType()==ORDER_TYPE_BUY)
@@ -61,10 +58,10 @@ bool COrderManager::Execute(COrder *order){
          order.SetPrice(m_market.GetAsk(order.GetSymbol()));
       
       // Volume check
-      if(order.GetVolume()>accountInfos.MaxLotCheck(order.GetSymbol(), order.GetType(), order.GetPrice())){
-         Print("CMarket::Execute: The volume ("+DoubleToString(order.GetVolume())
+      if(order.GetVolume()>m_market.MaxLotCheck(order.GetSymbol(), order.GetType(), order.GetPrice())){
+         Print("COrderManager::Execute: The volume ("+DoubleToString(order.GetVolume())
             +") is not allowed (max="
-            +DoubleToString(accountInfos.MaxLotCheck(order.GetSymbol(), order.GetType(), order.GetPrice()))+")");
+            +DoubleToString(m_market.MaxLotCheck(order.GetSymbol(), order.GetType(), order.GetPrice()))+")");
          return false;
       }
       
@@ -78,12 +75,12 @@ bool COrderManager::Execute(COrder *order){
       }
       else{
          order.SetStatus(ORDER_STATE_REJECTED); // The ticket is tagged as having an error
-         Print("CMarket::Execute: An error occured during the order execution.");
+         Print("COrderManager::Execute: An error occured during the order execution.");
          return false;
       }
    }
    else{
-      Print("CMarket::Execute: This type of order is not implemented yet. Type:  "+IntegerToString(order.GetType()));
+      Print("COrderManager::Execute: This type of order is not implemented yet. Type:  "+IntegerToString(order.GetType()));
       return false;
    }
 }
@@ -93,9 +90,7 @@ bool COrderManager::Execute(COrder *order){
 //| @param order A pointer to the order to execute
 //+------------------------------------------------------------------+
 
-bool COrderManager::Close(COrder *order){
-   CAccountInfo accountInfos;
-   
+bool COrderManager::Close(COrder *order){   
    if(order.GetStatus() == ORDER_STATE_FILLED){
       ENUM_ORDER_TYPE orderType;
       double price;

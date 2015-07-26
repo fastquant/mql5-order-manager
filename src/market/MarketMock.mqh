@@ -40,6 +40,7 @@ class CMarketMock : public CAbstractMarket{
       virtual bool PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment="");
       virtual double GetAsk(string symbol);
       virtual double GetBid(string symbol);
+      virtual double MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price);
 };
 
 //+------------------------------------------------------------------+
@@ -167,7 +168,6 @@ bool CMarketMock::IsSymbol(string symbol){
 //+------------------------------------------------------------------+
 
 bool CMarketMock::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment=""){
-   CAccountInfo accountInfos;
    double spread = MathAbs(GetBid(symbol)-GetAsk(symbol));
    
    // Verification of the symbol
@@ -175,7 +175,7 @@ bool CMarketMock::PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_t
       return false;
    
    // Verification of the volume
-   if(volume<=0||volume>accountInfos.MaxLotCheck(symbol, order_type, price))
+   if(volume<=0||volume>this.MaxLotCheck(symbol, order_type, price))
       return false;
    
    // Verification of the price
@@ -295,5 +295,14 @@ double CMarketMock::GetBid(string symbol){
    
    return -1.0;
 }
-
+//+------------------------------------------------------------------+
+//| Return the max lot authorized
+//| @param symbol Symbol
+//| @param orderType Order type
+//| @param price Price
+//| @return Max Lot
+//+------------------------------------------------------------------+
+double CMarketMock::MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
+   return 50; 
+}
 //+------------------------------------------------------------------+

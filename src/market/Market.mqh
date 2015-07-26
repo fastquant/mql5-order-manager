@@ -7,7 +7,7 @@
 #property copyright "Copyright 2015, Louis Fradin"
 #property link      "https://en.louis-fradin.net/"
 #property version   "1.00"
-
+#include <Trade/AccountInfo.mqh>
 #include <Trade/Trade.mqh>
 #include "AbstractMarket.mqh"
 #include "../orders/Order.mqh"
@@ -18,6 +18,7 @@
 
 class CMarket : public CAbstractMarket{
    private:
+      CAccountInfo m_accountInfo;
       CTrade m_trade;
       
    public:
@@ -27,6 +28,7 @@ class CMarket : public CAbstractMarket{
       virtual bool PositionOpen(const string symbol,const ENUM_ORDER_TYPE order_type,const double volume, const double price,const double sl,const double tp,const string comment="");
       virtual double GetAsk(string symbol);
       virtual double GetBid(string symbol);
+      virtual double MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price);
 };
 
 //+------------------------------------------------------------------+
@@ -78,6 +80,17 @@ double CMarket::GetBid(string symbol){
 
 double CMarket::GetAsk(string symbol){
    return SymbolInfoDouble(symbol,SYMBOL_ASK);
+}
+
+//+------------------------------------------------------------------+
+//| Return the max lot authorized
+//| @param symbol Symbol
+//| @param orderType Order type
+//| @param price Price
+//| @return Max Lot
+//+------------------------------------------------------------------+
+double CMarket::MaxLotCheck(string symbol, ENUM_ORDER_TYPE orderType, double price){
+   return m_accountInfo.MaxLotCheck(symbol, orderType, price); 
 }
 
 //+------------------------------------------------------------------+
