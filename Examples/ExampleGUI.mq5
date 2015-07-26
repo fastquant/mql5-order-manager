@@ -3,7 +3,7 @@
 //|                                     Copyright 2015, Louis Fradin |
 //|                                     https://en.louis-fradin.net/ |
 //+------------------------------------------------------------------+
-// Properties
+// Properties 
 #property copyright "Copyright 2015, Louis Fradin"
 #property link      "https://en.louis-fradin.net/"
 #property version   "1.00"
